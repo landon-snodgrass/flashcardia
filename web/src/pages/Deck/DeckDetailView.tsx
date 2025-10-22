@@ -1,8 +1,15 @@
-import { useDeckDetailData, useGameStore, useGetDeckDetail } from "@flashcard-rpg/shared";
+import {
+  SpacedRepetitionEngine,
+  useAddFlaschcardMutation,
+  useDeleteFlashcardMutation,
+  useGetDeckDetail,
+  useUpdateFlashcardMutation,
+} from "@flashcard-rpg/shared";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
-import { CardModal } from "../components/DeckManager/CardModal";
-import { LoadingSpinner } from "../components/LoadingSpinner";
+
+import { LoadingSpinner } from "../../components/LoadingSpinner";
+import { CardModal } from "./CardModal";
 
 export interface EditableCard {
   id: string;
@@ -15,9 +22,11 @@ export const DeckDetailView: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const {isLoading, isError, error, data } = useGetDeckDetail(deckId || "");
+  const { isLoading, isError, error, data } = useGetDeckDetail(deckId || "");
 
-  console.log(data);
+  const addCardMutation = useAddFlaschcardMutation();
+  const editCardMutation = useUpdateFlashcardMutation();
+  const deleteCardMutation = useDeleteFlashcardMutation();
 
   const [isCardModalOpen, setIsCardModalOpen] = useState<boolean>(false);
   const [editingCard, setEditingCard] = useState<EditableCard | null>(null);
@@ -35,22 +44,36 @@ export const DeckDetailView: React.FC = () => {
   const handleSaveCard = async (cardData: { front: string; back: string }) => {
     if (!deckId) return false;
 
-    return new Promise<boolean>(() => false);
-
-    // if (editingCard && editingCard.id) {
-    //   // Update existing card
-    //   return await updateCard(editingCard.id, cardData);
-    // } else {
-    //   // Create new card
-    //   return await createCard(deckId, cardData);
-    // }
+    if (editingCard && editingCard.id) {
+      // Update existing card
+      const response = await editCardMutation.mutateAsync({
+        cardId: editingCard.id,
+        updates: cardData,
+      });
+      if (response.success) {
+        return true;
+      }
+      return false;
+    } else {
+      // Create new card
+      const newCard = SpacedRepetitionEngine.initializeNewCard({
+        ...cardData,
+        deckId,
+        createdAt: new Date(),
+      });
+      const response = await addCardMutation.mutateAsync(newCard);
+      if (response.success) {
+        return true;
+      }
+      return false;
+    }
   };
 
   const handleDeleteCard = async (cardId: string) => {
     if (!deckId) return;
 
     if (confirm("Delete this card? This cannot be undone.")) {
-      // await deleteCard(deckId, cardId);
+      deleteCardMutation.mutate(cardId);
     }
   };
 
@@ -70,7 +93,7 @@ export const DeckDetailView: React.FC = () => {
     return <LoadingSpinner message="Loading deck..." />;
   }
 
-  if (error) {
+  if (isError) {
     return (
       <div style={{ padding: "40px", textAlign: "center" }}>
         <div style={{ color: "#F44336", marginBottom: "20px" }}>

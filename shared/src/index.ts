@@ -27,15 +27,21 @@ export type {
   CardReview,
 } from "./types";
 
-export type { User, AuthState, LoginCredentials, RegisterCredentials, AuthError } from './types/auth';
+export type {
+  User,
+  AuthState,
+  LoginCredentials,
+  RegisterCredentials,
+  AuthError,
+} from "./types/auth";
 
 export {
   useGameStore,
   usePlayerStats,
-  useSessionStats
+  useSessionStats,
 } from "./store/gameStore";
 
-export { useAuthStore, useAuth } from './store/authStore';
+export { useAuthStore, useAuth } from "./store/authStore";
 
 export { SpacedRepetitionEngine } from "./algorithms/spacedRepetition";
 
@@ -45,7 +51,7 @@ export { FlashcardService } from "./services/flashcardService";
 export { RealTimeService } from "./services/realTimeService";
 export { StudySessionService } from "./services/studySessionService";
 
-export { AuthService } from './services/authService';
+export { AuthService } from "./services/authService";
 
 export { db, auth, app } from "./config/firebase";
 
@@ -131,15 +137,14 @@ export const calculateMonsterDamage = (
  */
 export const getBattleTypeColor = (battleType: string): string => {
   const colors: { [key: string]: string } = {
-    goblin: '#4CAF50',
-    orc: '#FF9800',
-    dragon: '#E53E3E',
-    skeleton: '#9C27B0',
-    boss: '#795548'
+    goblin: "#4CAF50",
+    orc: "#FF9800",
+    dragon: "#E53E3E",
+    skeleton: "#9C27B0",
+    boss: "#795548",
   };
-  return colors[battleType] || '#666';
+  return colors[battleType] || "#666";
 };
-
 
 /**
  * Format large numbers (1000 -> 1K, 1000000 -> 1M)
@@ -258,19 +263,31 @@ export const GAME_CONSTANTS = {
   },
 } as const;
 
-export { useDashboardData, useDeckListData, useDataState, useDeckDetailData } from './hooks/useData';
+export {
+  useDashboardData,
+  useDeckListData,
+  useDataState,
+  useDeckDetailData,
+} from "./hooks/useData";
 
-export { useGetUserDecks, useGetDeckDetail, useAddDeckMutation } from './queries/deckQueries';
+export {
+  useGetUserDecks,
+  useGetDeckDetail,
+  useAddDeckMutation,
+  useUpdateFlashcardMutation,
+  useAddFlaschcardMutation,
+  useDeleteFlashcardMutation,
+} from "./queries/deckQueries";
 
 export { queryClient } from "./queries/queryClient";
 
 // Export data state helpers
-export { 
-  createDataState, 
-  setLoading, 
-  setSuccess, 
-  setError, 
-  isStale 
-} from './types/dataState';
-export type { DataState } from './types/dataState';
-export type { DailyStudyData } from './types/dailyStudy';
+export {
+  createDataState,
+  setLoading,
+  setSuccess,
+  setError,
+  isStale,
+} from "./types/dataState";
+export type { DataState } from "./types/dataState";
+export type { DailyStudyData } from "./types/dailyStudy";

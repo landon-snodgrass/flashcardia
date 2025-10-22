@@ -1,17 +1,26 @@
-import { useAddDeckMutation, useGameStore, useGetUserDecks } from "@flashcard-rpg/shared";
-import { buttonStyle } from "../components/DeckManager";
-import { DeckCard } from "../components/DeckManager/DeckCard";
+import { useGameStore, useGetUserDecks } from "@flashcard-rpg/shared";
 import { Link, useNavigate } from "react-router-dom";
+import { DeckCard } from "./DeckCard";
+
+const buttonStyle: React.CSSProperties = {
+  width: "100%",
+  padding: "12px",
+  backgroundColor: "#4CAF50",
+  color: "white",
+  border: "none",
+  borderRadius: "8px",
+  fontSize: "16px",
+};
 
 export const DeckList: React.FC = () => {
   const navigate = useNavigate();
 
   const { playerData } = useGameStore();
 
-  const { isError, error, isLoading, data } = useGetUserDecks(playerData.data?.userId || "");
+  const { isError, error, isLoading, data } = useGetUserDecks(
+    playerData.data?.userId || ""
+  );
 
-  console.log(data);
-  
   if (isLoading) {
     return (
       <div style={{ padding: "40px", textAlign: "center" }}>
@@ -24,7 +33,9 @@ export const DeckList: React.FC = () => {
     return (
       <div style={{ padding: "40px", textAlign: "center", color: "#F44336" }}>
         <div>❌ Error loading decks</div>
-        <div style={{ fontSize: "14px", marginTop: "10px" }}>{error.message}</div>
+        <div style={{ fontSize: "14px", marginTop: "10px" }}>
+          {error.message}
+        </div>
       </div>
     );
   }
@@ -111,10 +122,7 @@ export const DeckList: React.FC = () => {
           }}
         >
           {data.map((deck) => (
-            <DeckCard
-              key={deck.id}
-              deck={deck}
-            />
+            <DeckCard key={deck.id} deck={deck} />
           ))}
         </div>
       )}

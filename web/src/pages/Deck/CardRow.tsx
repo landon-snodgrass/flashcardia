@@ -1,4 +1,12 @@
-import { buttonStyle } from ".";
+const buttonStyle: React.CSSProperties = {
+  width: "100%",
+  padding: "12px",
+  backgroundColor: "#4CAF50",
+  color: "white",
+  border: "none",
+  borderRadius: "8px",
+  fontSize: "16px",
+};
 
 interface CardRowProps {
   card: any;

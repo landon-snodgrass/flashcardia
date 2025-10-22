@@ -9,6 +9,7 @@ import {
   where,
   orderBy,
   writeBatch,
+  getDoc,
 } from "firebase/firestore";
 
 import { Flashcard, ApiResponse } from "../types";
@@ -117,14 +118,21 @@ export class FlashcardService {
   static async updateCard(
     cardId: string,
     updates: Partial<Flashcard>
-  ): Promise<ApiResponse<void>> {
+  ): Promise<ApiResponse<Flashcard>> {
     try {
       const cardRef = doc(db, COLLECTIONS.FLASHCARDS, cardId);
       const preparedUpdates = prepareForFirestore(updates);
 
       await updateDoc(cardRef, preparedUpdates);
 
-      return { success: true, timestamp: new Date() };
+      const newCardDoc = await getDoc(cardRef);
+      if (!newCardDoc.exists()) {
+        return { success: false, error: "Card possibly created but not found afterward", timestamp: new Date() };
+      }
+
+      const newCard = newCardDoc.data() as Flashcard;
+
+      return { data: newCard, success: true, timestamp: new Date() };
     } catch (error) {
       return {
         success: false,
@@ -158,12 +166,25 @@ export class FlashcardService {
     }
   }
 
-  static async deleteCard(cardId: string): Promise<ApiResponse<void>> {
+  static async deleteCard(cardId: string): Promise<ApiResponse<string>> {
     try {
       const cardRef = doc(db, COLLECTIONS.FLASHCARDS, cardId);
+      const snapshot = await getDoc(cardRef);
+
+      if (!snapshot.exists()) {
+        return {
+          success: false,
+          error: "Card not found",
+          timestamp: new Date(),
+        };
+      }
+      const data = snapshot.data() as Flashcard;
+
+      const deckId = data.deckId;
+
       await deleteDoc(cardRef);
 
-      return { success: true, timestamp: new Date() };
+      return { data: deckId, success: true, timestamp: new Date() };
     } catch (error) {
       return {
         success: false,

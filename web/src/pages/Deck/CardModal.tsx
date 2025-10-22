@@ -1,5 +1,5 @@
+import { EditableCard } from "@/pages/Deck/DeckDetailView";
 import { useState } from "react";
-import { EditableCard } from "./DeckDetailView";
 
 interface CardModalProps {
   card?: EditableCard | null;
