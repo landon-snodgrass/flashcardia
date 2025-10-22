@@ -1,0 +1,82 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f5f5f5;
+  line-height: 1.6;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+button {
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* Health and XP bar animations */
+.health-bar, .xp-bar {
+  transition: width 0.3s ease;
+}
+
+/* Card flip animation classes for future use */
+.card-flip-enter {
+  transform: rotateY(-90deg);
+}
+
+.card-flip-enter-active {
+  transform: rotateY(0deg);
+  transition: transform 0.3s ease;
+}
+
+.card-flip-exit {
+  transform: rotateY(0deg);
+}
+
+.card-flip-exit-active {
+  transform: rotateY(90deg);
+  transition: transform 0.3s ease;
+}
+
+/* Damage number animation for future use */
+@keyframes damage-number {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-20px) scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-40px) scale(0.8);
+  }
+}
+
+.damage-number {
+  animation: damage-number 1s ease-out forwards;
+}

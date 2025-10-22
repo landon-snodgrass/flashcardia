@@ -1,0 +1,9 @@
+node_modules/
+
+web/node_modules/
+
+shared/node_modules/
+
+shared/src/config/firebaseConfig.ts
+
+shared/dist

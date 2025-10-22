@@ -1,0 +1,25 @@
+{
+  "name": "shared",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc-watch --onSuccess \"echo Shared package rebuilt\"",
+    "test": "jest"
+  },
+  "author": "Landon Snodgrass",
+  "dependencies": {
+    "@tanstack/react-query": "^5.90.5",
+    "firebase": "^12.0.0",
+    "zustand": "^5.0.6"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.8",
+    "tsc-watch": "^7.2.0",
+    "typescript": "^5.8.3"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0"
+  }
+}

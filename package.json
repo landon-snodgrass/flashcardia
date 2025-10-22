@@ -1,0 +1,27 @@
+{
+  "name": "flashcard-rpg",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "shared",
+    "web",
+    "mobile"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:shared\" \"npm run dev:web\"",
+    "dev:web": "cd web && npm run dev",
+    "dev:shared": "cd shared && npm run dev",
+    "dev:mobile": "cd mobile && npm run start",
+    "build:web": "cd web && npm run build",
+    "build:shared": "cd shared && npm run build",
+    "install:all": "npm install && npm run install:shared && npm run install:web",
+    "install:shared": "cd shared && npm install",
+    "install:web": "cd web && npm install"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "concurrently": "^9.2.1",
+    "typescript": "^5.0.0"
+  },
+  "author": "Landon Snodgrass"
+}
