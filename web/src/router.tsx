@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import { DeckDetailView } from "./pages/Deck/DeckDetailView";
 import { AuthLayout } from "./layouts/AuthLayout";
-import { Dashboard } from "./pages/Dashboard";
+import { Dashboard } from "./pages/Dashboard/Dashboard";
 import { DeckCreate } from "./pages/Deck/DeckCreate";
 import { DeckList } from "./pages/Deck/DeckList";
 import { BattleScreen } from "./pages/BattleScreen";
