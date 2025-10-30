@@ -1,7 +1,8 @@
 import {
   formatDuration,
   getBattleTypeColor,
-  useDashboardData,
+  useGameStore,
+  useGetUserDashboardData,
 } from "@flashcard-rpg/shared";
 import { StatBox } from "./Common/StatBox";
 
@@ -14,7 +15,9 @@ export const DailyStudyDashboard: React.FC<DailyStudyDashboardProps> = ({
   onStartBattle,
   onManageDecks,
 }: DailyStudyDashboardProps) => {
-  const { data, isLoading, error } = useDashboardData();
+  const { playerData } = useGameStore();
+
+  const { data, isLoading, error } = useGetUserDashboardData(playerData.data?.userId || "");
 
   if (isLoading) {
     return (
@@ -28,7 +31,7 @@ export const DailyStudyDashboard: React.FC<DailyStudyDashboardProps> = ({
     return (
       <div style={{ padding: "40px", textAlign: "center", color: "#F44336" }}>
         <div>❌ Error loading dashboard</div>
-        <div style={{ fontSize: "14px", marginTop: "10px" }}>{error}</div>
+        <div style={{ fontSize: "14px", marginTop: "10px" }}>{error.message}</div>
       </div>
     );
   }

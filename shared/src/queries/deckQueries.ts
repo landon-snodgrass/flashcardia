@@ -35,11 +35,9 @@ export const useAddDeckMutation = () => {
 
   return useMutation({
     mutationFn: (deckData: Omit<Deck, "id">) => {
-      console.log("USING OUR QUERY");
       return DeckService.createDeck(deckData);
     },
-    onSuccess: (data, variables, onMutateResult, context) => {
-      console.log("INVALIDATING QUEIRES!!!!");
+    onSuccess: (_, _2, _3, _4) => {
       queryClient.invalidateQueries({ queryKey: queryKeys.decks.all() });
     },
   });

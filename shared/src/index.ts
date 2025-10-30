@@ -279,6 +279,13 @@ export {
   useDeleteFlashcardMutation,
 } from "./queries/deckQueries";
 
+export {
+  useGetUserDashboardData,
+  useUpdateSessionMutation,
+  useCreateSessionMutation,
+  useGetUserCurrentSession,
+} from "./queries/sessionQueries";
+
 export { queryClient } from "./queries/queryClient";
 
 // Export data state helpers
