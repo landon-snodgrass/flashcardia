@@ -25,15 +25,20 @@ export const DailyStudyCard = () => {
   const summary = dashboardData?.summary;
 
   const onStartBattle = () => {
+    if (!dashboardData?.dueCards || !playerData.data) return;
     if (!currentSession) {
         const newSession: Omit<StudySession, "id"> = {
             userId: playerData.data?.userId || "",
             startTime: new Date(),
-            cardsReviewed: 0,
-            correctAnswers: 0,
-            newCardsLearned: 0,
-            battlesWon: 0,
-            xpEarned: 0,
+            endTime: null,
+            sessionType: "daily",
+            cards: dashboardData?.dueCards,
+            currentCardIndex: 0,
+            cardReviews: [],
+            monstersKilled: [],
+            playerStartingHp: playerData.data.maxHp,
+            playerCurrentHp: playerData.data.maxHp,
+            status: "active",
         }
         createSession.mutate({userId: playerData.data?.userId || "", sessionData: newSession})
     }
@@ -47,7 +52,6 @@ export const DailyStudyCard = () => {
   return (
     <div>
       {/* Today's Battle Plan */}
-
       <div
         style={{
           backgroundColor: "white",
@@ -120,7 +124,7 @@ export const DailyStudyCard = () => {
                 cursor: "pointer",
               }}
             >
-              ⚔️ Start Battle ({summary.totalDue} cards)
+              {currentSession ? "Continue Battle" : "Start Battle"}
             </button>
           </div>
         ) : (

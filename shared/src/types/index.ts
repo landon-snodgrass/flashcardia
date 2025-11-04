@@ -35,18 +35,6 @@ export interface DeckDetail {
 
 export type CardPerformance = 'again' | 'hard' | 'good' | 'easy';
 
-export interface StudySession {
-    id: string;
-    userId: string;
-    startTime: Date;
-    endTime?: Date;
-    cardsReviewed: number;
-    correctAnswers: number;
-    newCardsLearned: number;
-    battlesWon: number;
-    xpEarned: number;
-}
-
 export interface CardReview {
     cardId: string;
     performance: CardPerformance;
@@ -128,11 +116,11 @@ export interface MonsterEncounter {
     killed: boolean;
 }
 
-export interface StudySessionState {
+export interface StudySession {
     id: string;
     userId: string;
     startTime: Date;
-    endTime?: Date;
+    endTime: Date | null;
 
     // Session metadata
     sessionType: SessionType;
@@ -144,11 +132,10 @@ export interface StudySessionState {
     cardReviews: CardReview[];
 
     // Current monster encounter
-    currentMonster: MonsterEncounter | null;
+    currentMonster?: Monster;
 
     // Monster kill tracking
-    monstersEncountered: MonsterEncounter[];
-    monstersKilled: number;
+    monstersKilled: Monster[];
 
     // Player state for this session
     playerStartingHp: number;

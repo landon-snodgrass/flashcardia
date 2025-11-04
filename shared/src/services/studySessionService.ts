@@ -10,7 +10,7 @@ import {
   limit,
 } from "firebase/firestore";
 
-import { StudySession, ApiResponse } from "../types";
+import { StudySession, ApiResponse, SessionStatus } from "../types";
 import {
   COLLECTIONS,
   prepareForFirestore,
@@ -27,8 +27,10 @@ export class StudySessionService {
       // First end current session if we have one
       const currentSession = await this.getUserCurrentSession(userId);
       if (currentSession.data != null) {
+        const status: SessionStatus = currentSession.data.status == "active" ? "abandoned": currentSession.data.status;
         const endedSession: StudySession = {
           ...currentSession.data,
+          status,
           endTime: new Date(),
         };
         const response = await this.updateSession(endedSession.id, endedSession);

@@ -1,3 +1,5 @@
+import { MONSTER_TEMPLATES } from "./data/monsters";
+
 export type {
   // Core types
   Flashcard,
@@ -5,7 +7,6 @@ export type {
   Player,
   Equipment,
   Monster,
-  StudySessionState,
   StudySession,
 
   // Enums and unions
@@ -262,6 +263,8 @@ export const GAME_CONSTANTS = {
     slow: 10000, // < 10 seconds
   },
 } as const;
+
+export { MONSTER_TEMPLATES, createMonster } from "./data/monsters"
 
 export {
   useDashboardData,
