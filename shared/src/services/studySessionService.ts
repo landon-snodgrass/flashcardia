@@ -8,6 +8,7 @@ import {
   where,
   orderBy,
   limit,
+  setDoc,
 } from "firebase/firestore";
 
 import { StudySession, ApiResponse, SessionStatus } from "../types";
@@ -63,13 +64,16 @@ export class StudySessionService {
 
   static async updateSession(
     sessionId: string,
-    updates: Partial<StudySession>
+    updates: StudySession
   ): Promise<ApiResponse<void>> {
     try {
+      console.log("Trying to update session....", sessionId);
       const sessionRef = doc(db, COLLECTIONS.STUDY_SESSIONS, sessionId);
       const preparedUpdates = prepareForFirestore(updates);
 
-      await updateDoc(sessionRef, preparedUpdates);
+      console.log("Prepared updates: ", preparedUpdates)
+
+      await setDoc(sessionRef, preparedUpdates);
 
       return { success: true, timestamp: new Date() };
     } catch (error) {

@@ -20,10 +20,7 @@ interface FlashcardBattleProps {
   onBack: () => void;
 }
 
-export const BattleScreen: React.FC<FlashcardBattleProps> = ({
-  onBattleComplete,
-  onBack,
-}: FlashcardBattleProps) => {
+export const BattleScreen: React.FC<FlashcardBattleProps> = () => {
   const { playerData } = useGameStore();
 
   const { data: currentSession } = useGetUserCurrentSession(
@@ -54,43 +51,46 @@ export const BattleScreen: React.FC<FlashcardBattleProps> = ({
 
   const handleSubmitAnswer = () => {
     if (!currentSession || !currentCard) return;
-    let updatedSession: Partial<StudySession> = {
-      ...currentSession
+    
+    console.log("OLD INDEX ", currentSession.currentCardIndex, " OLD INDEX + 1", currentSession.currentCardIndex + 1);
+    const newIndex = currentSession.currentCardIndex + 1;
+    console.log("NEW INDEX", newIndex);
+    let updatedSession: StudySession = {
+      ...currentSession,
+      currentCardIndex: newIndex,
     }
+    
+
     if (userAnswer === currentCard?.back) {
-      alert("Correct!");
+      console.log("CORRECT");
       // Update the card
       const cardUpdate = SpacedRepetitionEngine.updateCard(currentCard, "good"); 
       updateFlashcard.mutate({cardId: cardUpdate.id, updates: cardUpdate });
 
+
       // Update the session
       updatedSession = {
-        ...currentSession,
-        currentCardIndex: currentSession.currentCardIndex++,
-        monstersKilled: [...currentSession.monstersKilled, currentSession.currentMonster as Monster],
+        ...updatedSession,
+        //monstersKilled: [...currentSession.monstersKilled, currentSession.currentMonster as Monster],
         currentMonster: createMonster(MONSTER_TEMPLATES.slime, 1),
       }
     } else {
+      console.log("WRONG!@");
       // Update the card
       const cardUpdate = SpacedRepetitionEngine.updateCard(currentCard, "again"); 
       updateFlashcard.mutate({cardId: cardUpdate.id, updates: cardUpdate });
 
       // Update the session
       updatedSession = {
-        ...currentSession,
-        currentCardIndex: currentSession.currentCardIndex++,
+        ...updatedSession,
         playerCurrentHp: currentSession.playerCurrentHp - 10,
       }
     }
 
-    console.log(updatedSession);
-
-    updateSession.mutate({sessionId: currentSession?.id, updates: updatedSession})
+    updateSession.mutate({sessionId: updatedSession.id, updates: updatedSession})
   }
 
   const currentCard = currentSession?.cards ? currentSession?.cards[currentSession.currentCardIndex] : null;
-
-  console.log(currentSession);
 
   return (
     <div>

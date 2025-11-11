@@ -41,7 +41,7 @@ export const useUpdateSessionMutation = () => {
   return useMutation({
     mutationFn: (args: {
       sessionId: string;
-      updates: Partial<StudySession>;
+      updates: StudySession;
     }) => {
       return StudySessionService.updateSession(args.sessionId, args.updates);
     },
